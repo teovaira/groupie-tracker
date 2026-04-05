@@ -35,7 +35,12 @@ func (s *testStore) SearchArtists(query string) []models.Artist {
 func (s *testStore) ArtistPageDataByID(id int) (models.ArtistPageData, bool) {
 	for _, a := range s.artists {
 		if a.ID == id {
-			return models.ArtistPageData{Artist: a, Locations: []string{}, Dates: []string{}}, true
+			return models.ArtistPageData{
+				Artist:         a,
+				Locations:      []string{},
+				Dates:          []string{},
+				DatesLocations: map[string][]string{},
+			}, true
 		}
 	}
 	return models.ArtistPageData{}, false
