@@ -33,9 +33,10 @@ func (r *routeStore) SearchArtists(query string) []models.Artist {
 func (r *routeStore) ArtistPageDataByID(id int) (models.ArtistPageData, bool) {
 	if id == 1 {
 		return models.ArtistPageData{
-			Artist:    models.Artist{ID: 1, Name: "Test Artist"},
-			Locations: []string{},
-			Dates:     []string{},
+			Artist:         models.Artist{ID: 1, Name: "Test Artist"},
+			Locations:      []string{},
+			Dates:          []string{},
+			DatesLocations: map[string][]string{},
 		}, true
 	}
 	return models.ArtistPageData{}, false
