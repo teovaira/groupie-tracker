@@ -68,7 +68,7 @@ func matchesQuery(a models.Artist, query string) bool {
 }
 
 // ArtistPageDataByID looks up an artist by ID and assembles the ArtistPageData
-// view model by joining the matching locations and dates from their respective
+// view model by joining locations, dates, and relations data from their respective
 // index slices. Returns false if no artist with the given ID exists.
 func (r *RealStore) ArtistPageDataByID(id int) (models.ArtistPageData, bool) {
 	for _, a := range r.AllArtists() {
@@ -85,13 +85,19 @@ func (r *RealStore) ArtistPageDataByID(id int) (models.ArtistPageData, bool) {
 					dates = d.Dates
 				}
 			}
+			var datesLocations map[string][]string
+			for _, rel := range r.Relations.Index {
+				if rel.ID == id {
+					datesLocations = rel.DatesLocations
+				}
+			}
 			return models.ArtistPageData{
-				Artist:    a,
-				Locations: locations,
-				Dates:     dates,
+				Artist:         a,
+				Locations:      locations,
+				Dates:          dates,
+				DatesLocations: datesLocations,
 			}, true
 		}
 	}
 	return models.ArtistPageData{}, false
-
 }
