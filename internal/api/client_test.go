@@ -9,16 +9,16 @@ import (
 func makeTestServer(artistsJSON, locationsJSON, datesJSON, relationsJSON string) *httptest.Server {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/artists", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(artistsJSON))
+		_, _ = w.Write([]byte(artistsJSON))
 	})
 	mux.HandleFunc("/api/locations", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(locationsJSON))
+		_, _ = w.Write([]byte(locationsJSON))
 	})
 	mux.HandleFunc("/api/dates", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(datesJSON))
+		_, _ = w.Write([]byte(datesJSON))
 	})
 	mux.HandleFunc("/api/relation", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(relationsJSON))
+		_, _ = w.Write([]byte(relationsJSON))
 	})
 	return httptest.NewServer(mux)
 }

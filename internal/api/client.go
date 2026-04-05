@@ -59,7 +59,7 @@ func loadDataFromURLs(artistsURL, locationsURL, datesURL, relationsURL string) e
 	if err != nil {
 		return fmt.Errorf("artist fetch failed: %w", err)
 	}
-	defer respArt.Body.Close()
+	defer respArt.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
 	if err = json.NewDecoder(respArt.Body).Decode(&data.Artists); err != nil {
 		return fmt.Errorf("artist decode failed: %w", err)
 	}
@@ -67,7 +67,7 @@ func loadDataFromURLs(artistsURL, locationsURL, datesURL, relationsURL string) e
 	if err != nil {
 		return fmt.Errorf("location fetch failed: %w", err)
 	}
-	defer respLoc.Body.Close()
+	defer respLoc.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
 	if err = json.NewDecoder(respLoc.Body).Decode(&data.Locations); err != nil {
 		return fmt.Errorf("location decode failed: %w", err)
 	}
@@ -75,7 +75,7 @@ func loadDataFromURLs(artistsURL, locationsURL, datesURL, relationsURL string) e
 	if err != nil {
 		return fmt.Errorf("date fetch failed: %w", err)
 	}
-	defer respDate.Body.Close()
+	defer respDate.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
 	if err = json.NewDecoder(respDate.Body).Decode(&data.Dates); err != nil {
 		return fmt.Errorf("date decode failed: %w", err)
 	}
@@ -83,7 +83,7 @@ func loadDataFromURLs(artistsURL, locationsURL, datesURL, relationsURL string) e
 	if err != nil {
 		return fmt.Errorf("relations fetch failed: %w", err)
 	}
-	defer respRel.Body.Close()
+	defer respRel.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
 	if err = json.NewDecoder(respRel.Body).Decode(&data.Relations); err != nil {
 		return fmt.Errorf("relations decode failed: %w", err)
 	}
