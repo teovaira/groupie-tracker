@@ -8,8 +8,7 @@ import (
 // It returns a small set of hardcoded artists and uses the same matchesQuery
 // logic as RealStore so that search behaviour is consistent in tests.
 // It has no external dependencies and requires no setup beyond instantiation.
-type MockStore struct {
-}
+type MockStore struct{}
 
 // AllArtists returns a fixed list of two artists used across all handler tests.
 func (m *MockStore) AllArtists() []models.Artist {
