@@ -54,38 +54,32 @@ var httpClient = &http.Client{Timeout: 10 * time.Second}
 // inject a local httptest.Server URL instead of hitting the real API.
 // Errors from any fetch or decode step are wrapped with context and returned
 // immediately — no partial data is used if any step fails.
+// fetchAndDecode fetches the given URL and JSON-decodes the response body into target.
+// It closes the response body before returning.
+func fetchAndDecode(url string, target any) error {
+	resp, err := httpClient.Get(url)
+	if err != nil {
+		return fmt.Errorf("fetch failed: %w", err)
+	}
+	defer resp.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
+	if err = json.NewDecoder(resp.Body).Decode(target); err != nil {
+		return fmt.Errorf("decode failed: %w", err)
+	}
+	return nil
+}
+
 func loadDataFromURLs(artistsURL, locationsURL, datesURL, relationsURL string) error {
-	respArt, err := httpClient.Get(artistsURL)
-	if err != nil {
-		return fmt.Errorf("artist fetch failed: %w", err)
+	if err := fetchAndDecode(artistsURL, &data.Artists); err != nil {
+		return fmt.Errorf("artists: %w", err)
 	}
-	defer respArt.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
-	if err = json.NewDecoder(respArt.Body).Decode(&data.Artists); err != nil {
-		return fmt.Errorf("artist decode failed: %w", err)
+	if err := fetchAndDecode(locationsURL, &data.Locations); err != nil {
+		return fmt.Errorf("locations: %w", err)
 	}
-	respLoc, err := httpClient.Get(locationsURL)
-	if err != nil {
-		return fmt.Errorf("location fetch failed: %w", err)
+	if err := fetchAndDecode(datesURL, &data.Dates); err != nil {
+		return fmt.Errorf("dates: %w", err)
 	}
-	defer respLoc.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
-	if err = json.NewDecoder(respLoc.Body).Decode(&data.Locations); err != nil {
-		return fmt.Errorf("location decode failed: %w", err)
-	}
-	respDate, err := httpClient.Get(datesURL)
-	if err != nil {
-		return fmt.Errorf("date fetch failed: %w", err)
-	}
-	defer respDate.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
-	if err = json.NewDecoder(respDate.Body).Decode(&data.Dates); err != nil {
-		return fmt.Errorf("date decode failed: %w", err)
-	}
-	respRel, err := httpClient.Get(relationsURL)
-	if err != nil {
-		return fmt.Errorf("relations fetch failed: %w", err)
-	}
-	defer respRel.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
-	if err = json.NewDecoder(respRel.Body).Decode(&data.Relations); err != nil {
-		return fmt.Errorf("relations decode failed: %w", err)
+	if err := fetchAndDecode(relationsURL, &data.Relations); err != nil {
+		return fmt.Errorf("relations: %w", err)
 	}
 	return nil
 }
