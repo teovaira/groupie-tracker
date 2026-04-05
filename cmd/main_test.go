@@ -97,7 +97,7 @@ func TestRoutes(t *testing.T) {
 			if err != nil {
 				t.Fatalf("request failed: %v", err)
 			}
-			defer resp.Body.Close()
+			defer resp.Body.Close() //nolint:errcheck // deferred close, error unrecoverable
 
 			if resp.StatusCode != tc.wantCode {
 				t.Errorf("GET %s = %d, want %d", tc.path, resp.StatusCode, tc.wantCode)
