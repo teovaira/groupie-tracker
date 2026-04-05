@@ -38,6 +38,7 @@ func LoadData() error {
 		"https://groupietrackers.herokuapp.com/api/relation",
 	)
 }
+
 // GetData returns a copy of the AppData struct populated by LoadData.
 // It is used by main to pass the loaded datasets into the RealStore,
 // which the HTTP handlers then query for every incoming request.
@@ -48,12 +49,11 @@ func GetData() AppData {
 var httpClient = &http.Client{Timeout: 10 * time.Second}
 
 // loadDataFromURLs sequentially fetches and JSON-decodes each of the four API
-// endpoints into the package-level data variable. Each request is made with
-// the shared httpClient which enforces a 10-second timeout per call.
-// The function is intentionally separate from LoadData so that tests can
-// inject a local httptest.Server URL instead of hitting the real API.
-// Errors from any fetch or decode step are wrapped with context and returned
-// immediately — no partial data is used if any step fails.
+// endpoints into the package-level data variable via fetchAndDecode.
+// It is intentionally separate from LoadData so that tests can inject a local
+// httptest.Server URL instead of hitting the real API.
+// Errors from any step are wrapped with context and returned immediately —
+// no partial data is used if any step fails.
 // fetchAndDecode fetches the given URL and JSON-decodes the response body into target.
 // It closes the response body before returning.
 func fetchAndDecode(url string, target any) error {
