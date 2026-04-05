@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Live search via `GET /api/search?q=` with debounced client-side fetch
 - Artist detail page with members, locations, and concert dates
 - 404 and 500 error pages
+- Concert dates grouped by location on artist detail page, sourced from the relations endpoint
+
+### Fixed
+- Relations data was loaded from the API but never used — now wired into `ArtistPageData` and displayed
+- Renamed `AppData.Date` → `Dates` and `RealStore.Data` → `Dates` for consistency
+- Lowercase all HTTP error strings to follow Go conventions
+- Consistent error message format in API client (`artist decode failed` pattern throughout)
 
 ## [0.1.0] - 2026-03-21
 
