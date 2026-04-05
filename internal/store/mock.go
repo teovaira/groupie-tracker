@@ -43,14 +43,15 @@ func (m *MockStore) SearchArtists(query string) []models.Artist {
 }
 
 // ArtistPageDataByID returns an ArtistPageData for the matching fixture artist
-// with empty locations and dates slices, since the mock holds no concert data.
+// with empty locations, dates, and datesLocations, since the mock holds no concert data.
 func (m *MockStore) ArtistPageDataByID(id int) (models.ArtistPageData, bool) {
 	for _, a := range m.AllArtists() {
 		if a.ID == id {
 			return models.ArtistPageData{
-				Artist:    a,
-				Locations: []string{},
-				Dates:     []string{},
+				Artist:         a,
+				Locations:      []string{},
+				Dates:          []string{},
+				DatesLocations: map[string][]string{},
 			}, true
 		}
 	}
