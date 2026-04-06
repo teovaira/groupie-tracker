@@ -53,6 +53,8 @@ func main() {
 
 	homeHandler := handlers.NewHomeHandler(s, homeTmpl)
 	notFoundHandler := handlers.NotFoundHandler(notFoundTmpl)
+	artistHandler := handlers.NewArtistHandler(s, artistTmpl)
+	searchHandler := &handlers.SearchHandler{Store: s}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -62,9 +64,8 @@ func main() {
 		}
 		homeHandler.ServeHTTP(w, r)
 	})
-	mux.Handle("GET /artist/{id}", handlers.NewArtistHandler(s, artistTmpl))
+	mux.Handle("GET /artist/{id}", artistHandler)
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("web/static"))))
-	searchHandler := &handlers.SearchHandler{Store: s}
 	mux.HandleFunc("GET /api/search", searchHandler.Search)
 
 	log.Printf("server listening on %s", addr)
