@@ -21,18 +21,16 @@
 </div>
 
 <section id="search-results" class="artist-grid">
-    {{if .}}
-        {{range .}}
-        <a href="/artist/{{.ID}}" class="artist-card">
-            <img src="{{.Image}}" alt="{{.Name}}">
-            <div class="artist-card-info">
-                <h2>{{.Name}}</h2>
-                <p>Since {{.CreationDate}}</p>
-            </div>
-        </a>
-        {{else}}
-        <p class="no-artists">No artists available.</p>
-        {{end}}
+    {{range .}}
+    <a href="/artist/{{.ID}}" class="artist-card">
+        <img src="{{.Image}}" alt="{{.Name}}">
+        <div class="artist-card-info">
+            <h2>{{.Name}}</h2>
+            <p>Since {{.CreationDate}}</p>
+        </div>
+    </a>
+    {{else}}
+    <p class="no-artists">No artists available.</p>
     {{end}}
 </section>
 
