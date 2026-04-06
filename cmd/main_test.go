@@ -58,7 +58,8 @@ func buildMux(s store.Store) *http.ServeMux {
 		}
 		handlers.NewHomeHandler(s, homeTmpl).ServeHTTP(w, r)
 	})
-	mux.Handle("GET /artist/{id}", handlers.NewArtistHandler(s, artistTmpl))
+	notFoundTmpl := template.Must(template.New("404.html").Parse(`Not Found`))
+	mux.Handle("GET /artist/{id}", handlers.NewArtistHandler(s, artistTmpl, notFoundTmpl))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("../web/static"))))
 	searchHandler := &handlers.SearchHandler{Store: s}
 	mux.HandleFunc("GET /api/search", searchHandler.Search)

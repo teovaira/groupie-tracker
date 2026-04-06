@@ -190,7 +190,7 @@ func TestArtistHandler(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			s := &testStore{artists: tc.artists}
-			h := NewArtistHandler(s, tc.tmpl)
+			h := NewArtistHandler(s, tc.tmpl, mustParseTemplate(`not found`))
 
 			req := httptest.NewRequest(http.MethodGet, tc.url, nil)
 			req.SetPathValue("id", tc.pathID)
