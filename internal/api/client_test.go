@@ -24,6 +24,7 @@ func makeTestServer(artistsJSON, locationsJSON, datesJSON, relationsJSON string)
 }
 
 func TestLoadData_Success(t *testing.T) {
+	data = AppData{}
 	srv := makeTestServer(
 		`[{"id":1,"name":"Test Artist","members":["Alice"],"creationDate":2000,"firstAlbum":"01-01-2000"}]`,
 		`{"index":[{"id":1,"locations":["paris"]}]}`,
@@ -51,6 +52,7 @@ func TestLoadData_Success(t *testing.T) {
 }
 
 func TestLoadData_ArtistFetchFail(t *testing.T) {
+	data = AppData{}
 	err := loadDataFromURLs("http://invalid.invalid", "", "", "")
 	if err == nil {
 		t.Error("expected error for bad artist URL")
@@ -58,6 +60,7 @@ func TestLoadData_ArtistFetchFail(t *testing.T) {
 }
 
 func TestLoadData_InvalidJSON(t *testing.T) {
+	data = AppData{}
 	srv := makeTestServer("not-json", `{"index":[]}`, `{"index":[]}`, `{"index":[]}`)
 	defer srv.Close()
 
