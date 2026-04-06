@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"groupie-tracker/internal/store"
 	"net/http"
+	"strings"
 )
 
 // SearchHandler handles live search requests and holds the store dependency
@@ -26,11 +27,11 @@ func (h *SearchHandler) Search(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	if r.URL.Query().Get("q") == "" {
+	query := strings.TrimSpace(r.URL.Query().Get("q"))
+	if query == "" {
 		http.Error(w, "bad request", http.StatusBadRequest)
 		return
 	}
-	query := r.URL.Query().Get("q")
 	result := h.Store.SearchArtists(query)
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(result)
