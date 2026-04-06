@@ -4,6 +4,7 @@
 package main
 
 import (
+	"errors"
 	"html/template"
 	"log"
 	"net/http"
@@ -41,14 +42,25 @@ func main() {
 		"web/templates/base.html",
 		"web/templates/artist.html",
 	))
-	errorTmpl := template.Must(template.ParseGlob("web/templates/*.html"))
+	notFoundTmpl := template.Must(template.ParseFiles(
+		"web/templates/base.html",
+		"web/templates/404.html",
+	))
+	serverErrorTmpl := template.Must(template.ParseFiles(
+		"web/templates/base.html",
+		"web/templates/500.html",
+	))
+
+	homeHandler := handlers.NewHomeHandler(s, homeTmpl)
+	notFoundHandler := handlers.NotFoundHandler(notFoundTmpl)
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
-			handlers.NotFoundHandler(errorTmpl)(w, r)
+			notFoundHandler(w, r)
 			return
 		}
-		handlers.NewHomeHandler(s, homeTmpl).ServeHTTP(w, r)
+		homeHandler.ServeHTTP(w, r)
 	})
 	mux.Handle("GET /artist/{id}", handlers.NewArtistHandler(s, artistTmpl))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("web/static"))))
@@ -56,7 +68,7 @@ func main() {
 	mux.HandleFunc("GET /api/search", searchHandler.Search)
 
 	log.Printf("server listening on %s", addr)
-	if err := http.ListenAndServe(addr, handlers.RecoveryMiddleware(errorTmpl, mux)); err != nil {
+	if err := http.ListenAndServe(addr, handlers.RecoveryMiddleware(serverErrorTmpl, mux)); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Fatalf("server error: %v", err)
 	}
 }
