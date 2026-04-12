@@ -41,20 +41,46 @@
         </section>
 
         <section class="detail-section">
-            <h3>Concert Dates &amp; Locations</h3>
+            <h3>Locations</h3>
+            {{if .Locations}}
+            <div class="pill-grid">
+                {{range .Locations}}
+                <span class="pill">{{.}}</span>
+                {{end}}
+            </div>
+            {{else}}
+            <p class="empty-state">No location information available.</p>
+            {{end}}
+        </section>
+
+        <section class="detail-section">
+            <h3>Concert Dates</h3>
+            {{if .Dates}}
+            <div class="pill-grid">
+                {{range .Dates}}
+                <span class="pill pill--date">{{.}}</span>
+                {{end}}
+            </div>
+            {{else}}
+            <p class="empty-state">No date information available.</p>
+            {{end}}
+        </section>
+
+        <section class="detail-section detail-section--wide">
+            <h3>Dates by Location</h3>
             {{if .DatesLocations}}
-            <ul class="locations-list">
+            <div class="dateloc-grid">
                 {{range $location, $dates := .DatesLocations}}
-                <li>
+                <div class="dateloc-card">
                     <span class="location-name">{{$location}}</span>
                     <ul class="dates-list">
                         {{range $dates}}
                         <li>{{.}}</li>
                         {{end}}
                     </ul>
-                </li>
+                </div>
                 {{end}}
-            </ul>
+            </div>
             {{else}}
             <p class="empty-state">No concert information available.</p>
             {{end}}

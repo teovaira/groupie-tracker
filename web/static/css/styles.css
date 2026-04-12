@@ -432,22 +432,97 @@ footer p {
     border-bottom: 1px solid var(--color-border);
 }
 
-.members-list,
-.locations-list,
-.dates-list {
+/* Members — flat list with subtle left accent */
+.members-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: var(--space-xs);
 }
 
-.members-list li,
-.locations-list li,
-.dates-list li {
+.members-list li {
     font-size: var(--font-size-base);
     color: var(--color-text);
     padding: var(--space-sm) var(--space-md);
     background-color: var(--color-surface-2);
     border-radius: var(--radius-sm);
+    border-left: 3px solid var(--color-border);
+    transition: border-color var(--transition);
+}
+
+.members-list li:hover {
+    border-left-color: var(--color-primary);
+}
+
+/* Pills — locations and dates as compact badges */
+.pill-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.pill {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text);
+    background-color: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--transition), color var(--transition);
+}
+
+.pill:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.pill--date {
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-muted);
+}
+
+.pill--date:hover {
+    color: var(--color-primary);
+}
+
+/* Dates by Location — card grid */
+.dateloc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-md);
+}
+
+.dateloc-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background-color: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    border-top: 3px solid var(--color-primary);
+}
+
+.location-name {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.dates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dates-list li {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    padding: 2px 0;
+    font-variant-numeric: tabular-nums;
 }
 
 .empty-state {
@@ -481,6 +556,10 @@ footer p {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .detail-section--wide {
+        grid-column: 1 / -1;
+    }
 }
 
 /* Desktop — 1280px and up */
@@ -491,6 +570,10 @@ footer p {
 
     .artist-sections {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .detail-section--wide {
+        grid-column: 1 / -1;
     }
 }
 
@@ -515,6 +598,10 @@ footer p {
     line-height: 1;
     color: var(--color-primary);
     letter-spacing: -4px;
+}
+
+.error-code--400 {
+    color: #ffb347;
 }
 
 .error-code--500 {
