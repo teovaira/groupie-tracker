@@ -10,6 +10,20 @@ import (
 	"net/http"
 )
 
+// BadRequestHandler returns an http.HandlerFunc that renders the 400.html template
+// and writes a 400 Bad Request status. Used when the client sends a malformed
+// request, such as a non-numeric artist ID in the URL path.
+func BadRequestHandler(tmpl *template.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusBadRequest)
+		err := tmpl.ExecuteTemplate(w, "400.html", nil)
+		if err != nil {
+			log.Print(err)
+			http.Error(w, "bad request", http.StatusBadRequest)
+		}
+	}
+}
+
 // NotFoundHandler returns an http.HandlerFunc that renders the 404.html template
 // and writes a 404 Not Found status. If the template fails to execute, it falls
 // back to a plain-text http.Error to ensure the client always receives a response.

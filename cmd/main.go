@@ -50,10 +50,14 @@ func main() {
 		"web/templates/base.html",
 		"web/templates/500.html",
 	))
+	badRequestTmpl := template.Must(template.ParseFiles(
+		"web/templates/base.html",
+		"web/templates/400.html",
+	))
 
 	homeHandler := handlers.NewHomeHandler(s, homeTmpl)
 	notFoundHandler := handlers.NotFoundHandler(notFoundTmpl)
-	artistHandler := handlers.NewArtistHandler(s, artistTmpl, notFoundTmpl)
+	artistHandler := handlers.NewArtistHandler(s, artistTmpl, notFoundTmpl, badRequestTmpl)
 	searchHandler := &handlers.SearchHandler{Store: s}
 
 	mux := http.NewServeMux()
