@@ -10,7 +10,9 @@ flowchart TD
     A -->|"GET /static/..."| E[FileServer]
 
     B --> F[store.AllArtists]
-    C --> G[store.ArtistPageDataByID]
+    C -->|valid numeric ID| G[store.ArtistPageDataByID]
+    C -->|non-numeric ID| P[400 Bad Request]
+    C -->|unknown ID| Q[404 Not Found]
     D --> H[store.SearchArtists]
 
     F --> I[(RealStore)]
@@ -21,7 +23,7 @@ flowchart TD
     J -->|fetch| K([groupietrackers API])
 
     B -->|render| L[home.html]
-    C -->|render| M[artist.html]
+    G -->|render| M[artist.html]
 
     L -->|extends| N[base.html]
     M -->|extends| N
