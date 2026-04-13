@@ -15,8 +15,8 @@ Built with Go (standard library only) and plain HTML/CSS/JS.
 ```bash
 git clone https://github.com/your-team/groupie-tracker.git
 cd groupie-tracker
-make build
-./bin/groupie-tracker
+go build -o groupie-tracker ./cmd
+./groupie-tracker
 ```
 
 Visit `http://localhost:8080`
