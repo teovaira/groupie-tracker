@@ -13,7 +13,7 @@ Built with Go (standard library only) and plain HTML/CSS/JS.
 **Prerequisites:** Go 1.22+
 
 ```bash
-git clone https://github.com/your-team/groupie-tracker.git
+git clone https://github.com/vxanthio/groupie-tracker.git
 cd groupie-tracker
 go build -o groupie-tracker ./cmd
 ./groupie-tracker

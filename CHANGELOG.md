@@ -31,4 +31,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `AppData.Date` → `Dates` for consistency
 - HTTP error strings lowercased to follow Go conventions
 
-[1.0.0]: https://github.com/your-team/groupie-tracker/releases/tag/v1.0.0
+[1.0.0]: https://github.com/vxanthio/groupie-tracker.git
