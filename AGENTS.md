@@ -44,10 +44,3 @@ go test -coverprofile=coverage.out ./... # with coverage
 ## Key Interfaces
 
 `store.Store` is the central interface handlers depend on. Use `store.MockStore` or the local `testStore` in handler tests — never call the external API in tests.
-
-## Error Handlers
-
-Three styled error handlers live in `internal/handlers/errors.go`:
-- `BadRequestHandler` — 400, for non-numeric artist IDs
-- `NotFoundHandler` — 404, for unknown routes and missing artist IDs
-- `StatusInternalServerError` — 500, called by `RecoveryMiddleware` on panic
