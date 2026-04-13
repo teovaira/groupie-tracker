@@ -26,7 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Relations data wired into `ArtistPageData` and displayed on the artist detail page
-- Non-numeric artist IDs return 400 Bad Request instead of 404 Not Found
+- Non-numeric and unknown artist IDs consistently return 404 Not Found
+- Empty or missing `?q=` search parameter returns 400 Bad Request
 - Renamed `AppData.Date` → `Dates` for consistency
 - HTTP error strings lowercased to follow Go conventions
 
