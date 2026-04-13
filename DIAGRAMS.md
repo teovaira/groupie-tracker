@@ -23,7 +23,7 @@ flowchart TD
     J -->|fetch| K([groupietrackers API])
 
     B -->|render| L[home.html]
-    G -->|render| M[artist.html]
+    C -->|render| M[artist.html]
 
     L -->|extends| N[base.html]
     M -->|extends| N
