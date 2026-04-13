@@ -252,9 +252,11 @@ func TestSearchHandler(t *testing.T) {
 		},
 	}
 
+	badReqTmpl := template.Must(template.New("400.html").Parse(`Bad Request`))
+
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			h := &SearchHandler{Store: &testStore{artists: artists}}
+			h := &SearchHandler{Store: &testStore{artists: artists}, BadRequestTmpl: badReqTmpl}
 			req := httptest.NewRequest(tc.method, tc.url, nil)
 			rec := httptest.NewRecorder()
 
@@ -316,6 +318,13 @@ func TestErrorHandlers(t *testing.T) {
 		handler        func(*template.Template) http.HandlerFunc
 		wantStatusCode int
 	}{
+		{
+			name:           "bad_request_returns_400",
+			templateName:   "400.html",
+			templateBody:   `Bad Request`,
+			handler:        BadRequestHandler,
+			wantStatusCode: http.StatusBadRequest,
+		},
 		{
 			name:           "not_found_returns_404",
 			templateName:   "404.html",
