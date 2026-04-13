@@ -35,8 +35,6 @@ Example: `feat(handlers): implement GET /artist/{id} handler`
 - Only standard library packages — no external dependencies
 - Functions under 50 lines
 
-## No-Overlap Rules
+## Package Ownership
 
-- `internal/api/`, `internal/models/`, `internal/store/`, `cmd/main.go` — Vasiliki only
-- `web/static/css/` — Krysta only
-- `internal/handlers/home.go`, `internal/handlers/artist.go`, `web/static/js/` — Theo only
+Each package has a primary owner. Discuss in a PR before modifying a package you did not author.
