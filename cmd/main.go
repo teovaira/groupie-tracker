@@ -57,8 +57,8 @@ func main() {
 
 	homeHandler := handlers.NewHomeHandler(s, homeTmpl)
 	notFoundHandler := handlers.NotFoundHandler(notFoundTmpl)
-	artistHandler := handlers.NewArtistHandler(s, artistTmpl, notFoundTmpl, badRequestTmpl)
-	searchHandler := &handlers.SearchHandler{Store: s}
+	artistHandler := handlers.NewArtistHandler(s, artistTmpl, notFoundTmpl)
+	searchHandler := &handlers.SearchHandler{Store: s, BadRequestTmpl: badRequestTmpl}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
