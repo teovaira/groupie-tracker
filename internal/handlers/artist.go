@@ -13,31 +13,28 @@ import (
 // and rendering the artist detail page. The store and templates are injected at
 // construction time so the handler is stateless and safe for concurrent use.
 type ArtistHandler struct {
-	store           store.Store
-	tmpl            *template.Template
-	notFoundTmpl    *template.Template
-	badRequestTmpl  *template.Template
+	store        store.Store
+	tmpl         *template.Template
+	notFoundTmpl *template.Template
 }
 
 // NewArtistHandler constructs an ArtistHandler with the given store, page template,
-// not-found template, and bad-request template. All templates are parsed once at
-// construction time and reused across all requests, avoiding repeated filesystem
-// reads on every page load.
-func NewArtistHandler(s store.Store, tmpl *template.Template, notFoundTmpl *template.Template, badRequestTmpl *template.Template) http.Handler {
-	return &ArtistHandler{store: s, tmpl: tmpl, notFoundTmpl: notFoundTmpl, badRequestTmpl: badRequestTmpl}
+// and not-found template. All templates are parsed once at construction time and
+// reused across all requests, avoiding repeated filesystem reads on every page load.
+func NewArtistHandler(s store.Store, tmpl *template.Template, notFoundTmpl *template.Template) http.Handler {
+	return &ArtistHandler{store: s, tmpl: tmpl, notFoundTmpl: notFoundTmpl}
 }
 
 // ServeHTTP extracts the artist ID from the URL path, validates it is a positive
 // integer, and retrieves the matching ArtistPageData from the store. It renders
 // the result into a buffer before writing to the response so that a template
 // execution error does not result in a partially written 200 response.
-// Returns a styled 400 page for non-numeric IDs, 404 for unknown IDs,
-// and 500 if template execution fails.
+// Returns a styled 404 page for non-numeric or unknown IDs, 500 if template execution fails.
 func (h *ArtistHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		BadRequestHandler(h.badRequestTmpl)(w, r)
+		NotFoundHandler(h.notFoundTmpl)(w, r)
 		return
 	}
 
