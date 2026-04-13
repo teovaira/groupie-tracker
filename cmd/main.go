@@ -72,9 +72,9 @@ func main() {
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("web/static"))))
 	mux.HandleFunc("GET /api/search", searchHandler.Search)
 
-	mux.HandleFunc("GET /panic-test", func(w http.ResponseWriter, r *http.Request) {
-    panic("intentional test panic")
-})
+	// mux.HandleFunc("GET /panic-test", func(w http.ResponseWriter, r *http.Request) {
+	// 	panic("intentional test panic")
+	// })
 
 	log.Printf("server listening on http://localhost%s", addr)
 	if err := http.ListenAndServe(addr, handlers.RecoveryMiddleware(serverErrorTmpl, mux)); err != nil && !errors.Is(err, http.ErrServerClosed) {
