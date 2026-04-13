@@ -5,31 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Added
-- Live search via `GET /api/search?q=` with debounced client-side fetch
-- Artist detail page with members, locations, and concert dates
-- 404 and 500 error pages
-- Concert dates grouped by location on artist detail page, sourced from the relations endpoint
-
-### Fixed
-- Relations data was loaded from the API but never used — now wired into `ArtistPageData` and displayed
-- Renamed `AppData.Date` → `Dates` and `RealStore.Data` → `Dates` for consistency
-- Lowercase all HTTP error strings to follow Go conventions
-- Consistent error message format in API client (`artist decode failed` pattern throughout)
-
-## [0.1.0] - 2026-03-21
+## [1.0.0] - 2026-04-13
 
 ### Added
 - Project bootstrap: Go module, folder structure, HTTP server
-- API client fetching artists, locations, dates, and relations
-- In-memory data store with `Store` interface and `MockStore` for testing
-- `GET /` handler rendering the artist list
-- `GET /artist/{id}` handler rendering artist detail
-- Base layout, home template, artist template, error templates
-- Dark-theme CSS design system
+- API client fetching artists, locations, dates, and relations at startup
+- In-memory data store with `Store` interface, `RealStore`, and `MockStore` for testing
+- `GET /` handler rendering the full artist list as cards
+- `GET /artist/{id}` handler rendering artist detail page
+- `GET /api/search?q=` handler returning JSON for live search
+- Live search via debounced client-side `fetch()` without full page reload
+- Artist detail page: members, creation year, first album, locations, dates, and dates grouped by location
+- Locations and Concert Dates displayed as pill badges on artist detail page
+- Dates by Location displayed as a card grid on artist detail page
+- Base layout, home template, artist template
+- Styled error pages for 400 Bad Request, 404 Not Found, and 500 Internal Server Error
+- Dark-theme CSS design system with responsive layout
 - Static file server under `/static/`
+- `RecoveryMiddleware` wrapping the entire mux — catches panics, renders 500, never crashes
 
-[Unreleased]: https://github.com/your-team/groupie-tracker/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/your-team/groupie-tracker/releases/tag/v0.1.0
+### Fixed
+- Relations data wired into `ArtistPageData` and displayed on the artist detail page
+- Non-numeric artist IDs return 400 Bad Request instead of 404 Not Found
+- Renamed `AppData.Date` → `Dates` for consistency
+- HTTP error strings lowercased to follow Go conventions
+
+[1.0.0]: https://github.com/your-team/groupie-tracker/releases/tag/v1.0.0
