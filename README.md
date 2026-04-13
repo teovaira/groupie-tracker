@@ -24,8 +24,9 @@ Visit `http://localhost:8080`
 ## Features
 
 - Browse all artists as cards on the home page
-- View artist detail: members, creation year, first album, concert locations and dates
+- View artist detail: members, creation year, first album, concert locations, dates, and dates grouped by location
 - Live search — filter artists by name, member, location, or year without page reload
+- Styled error pages for 400, 404, and 500 responses
 
 ## Project Structure
 
