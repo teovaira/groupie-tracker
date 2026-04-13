@@ -11,8 +11,8 @@ import (
 )
 
 // BadRequestHandler returns an http.HandlerFunc that renders the 400.html template
-// and writes a 400 Bad Request status. Used when the client sends a malformed
-// request, such as a non-numeric artist ID in the URL path.
+// and writes a 400 Bad Request status. Used when the client sends a request
+// with a missing or empty required query parameter, such as ?q= in /api/search.
 func BadRequestHandler(tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
