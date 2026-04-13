@@ -11,8 +11,8 @@ flowchart TD
 
     B --> F[store.AllArtists]
     C -->|valid numeric ID| G[store.ArtistPageDataByID]
-    C -->|non-numeric ID| P[400 Bad Request]
-    C -->|unknown ID| Q[404 Not Found]
+    C -->|non-numeric or unknown ID| Q[404 Not Found]
+    D -->|empty query| P[400 Bad Request]
     D --> H[store.SearchArtists]
 
     F --> I[(RealStore)]
